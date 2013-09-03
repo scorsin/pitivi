@@ -642,6 +642,7 @@ class TimelineStage(Clutter.ScrollActor, Zoomable):
 
     def _trackAddedCb(self, timeline, track):
         self._connectTrack(track)
+        self._container.app.current.update_restriction_caps()
 
     def _trackRemovedCb(self, timeline, track):
         self._disconnectTrack(track)
@@ -1323,6 +1324,9 @@ class Timeline(Gtk.VBox, Zoomable, Loggable):
             self._framerate = value
 
             self.ruler.setProjectFrameRate(self._framerate)
+
+        if item == "width" or item == "height":
+            project.update_restriction_caps()
 
     def _snapDistanceChangedCb(self, settings):
         if self.bTimeline:
